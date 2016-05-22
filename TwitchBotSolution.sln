@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwitchBot", "bsbot\TwitchBot.csproj", "{95A6E820-D3D1-4695-82FF-E3E963A3CFB6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwitchBot", "TwitchBot\TwitchBot.csproj", "{95A6E820-D3D1-4695-82FF-E3E963A3CFB6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResponseTwitchBot", "ResponseTwitchBot\ResponseTwitchBot.csproj", "{193BEFF4-54F9-4CF5-AE80-31600A8EBE86}"
 EndProject
