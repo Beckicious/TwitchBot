@@ -3,26 +3,36 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+using System.IO;
 
 namespace ResponseTwitchBot
 {
     class Program
     {
         static void Main(string[] args)
-        {
-
+        {            
             TestBasicBot();
-
         }
 
 
         private static void TestBasicBot()
         {
-            ResponseTwitchBot bsbot = new ResponseTwitchBot("samplebot", "oauth:kj299d8n505eqn861pct0lrceoseph");
+            try
+            {
+                StreamReader reader = new StreamReader(@".\data.txt");
+                string s = reader.ReadLine();
+                Data d = JsonConvert.DeserializeObject<Data>(s);
 
-            bsbot.Connect();
+                ResponseTwitchBot bsbot = new ResponseTwitchBot(d.UserName, d.Token);
+                bsbot.Connect();
+                bsbot.StartConsoleReader();
+            } catch
+            {
+                Console.WriteLine("no data.txt file found");
+                Console.ReadLine();
+            }
 
-            bsbot.StartConsoleReader();
 
         }
     }
