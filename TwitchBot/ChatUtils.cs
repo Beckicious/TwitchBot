@@ -19,7 +19,9 @@ namespace TwitchBot
             var writer = rawMessage.Substring(writerStart, writerLength);
             var message = rawMessage.Substring(rawMessage.IndexOf(':') + 1).Trim();
 
-            return new ChatMessage(writer, message);
+            var channel = rawMessage.Substring(rawMessage.IndexOf('#') + 1).Split(' ')[0];
+
+            return new ChatMessage(writer, message, channel);
         }
 
         public static bool IsChatMessage(this string msg)

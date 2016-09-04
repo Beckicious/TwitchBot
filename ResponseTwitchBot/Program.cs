@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TwitchBot.Commands;
 
 namespace ResponseTwitchBot
 {
@@ -23,6 +24,8 @@ namespace ResponseTwitchBot
             bsbot.Connect();
 
             bsbot.StartConsoleReader();
+
+            bsbot.AddAnswerCommand("!ask");
 
         }
     }

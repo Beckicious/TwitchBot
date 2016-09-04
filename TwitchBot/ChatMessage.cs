@@ -10,11 +10,16 @@ namespace TwitchBot
     {
         public string Writer { get; set; }
         public string Message { get; set; }
+        public string FirstWord { get; set; }
+        public string Channel { get; set; }
 
-        public ChatMessage(string writer, string message)
+        public ChatMessage(string writer, string message, string channel)
         {
             this.Writer = writer;
             this.Message = message;
+            this.Channel = channel;
+
+            this.FirstWord = message.Split(' ')[0];
         }
     } 
 }

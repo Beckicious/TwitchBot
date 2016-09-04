@@ -84,6 +84,7 @@ namespace ResponseTwitchBot
                         Console.WriteLine("---------------------------------------\n");
                     }
 
+
                     else
                     {
                         Console.WriteLine("command is unknown");
@@ -98,7 +99,14 @@ namespace ResponseTwitchBot
         {
             try
             {
-                return commandDict[cm.Message];
+                if (commandDict.ContainsKey(cm.FirstWord))
+                {
+                    return commandDict[cm.FirstWord];
+                }
+                else
+                {
+                    return commandDict[cm.Writer];
+                }
             } catch
             {
                 return null;
@@ -110,6 +118,11 @@ namespace ResponseTwitchBot
             commandDict.AddOrUpdate(trigger, new ResponseCommand(this, response), (string s, Command c) => { return new ResponseCommand(this, response); });
             Properties.Settings.Default.commandDict = ConvertDictToString();
             Properties.Settings.Default.Save();
+        }
+
+        public void AddAnswerCommand(string trigger)
+        {
+            commandDict.AddOrUpdate(trigger, new AnswerCommand(this), (string s, Command c) => { return new AnswerCommand(this); });
         }
 
         public void RemoveResponseCommand(string trigger)

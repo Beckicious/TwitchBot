@@ -7,7 +7,6 @@ using System.Net;
 using System.Net.Sockets;
 using System.IO;
 using System.Collections.Concurrent;
-using TwitchBot.Commands;
 
 namespace TwitchBot
 {
@@ -26,16 +25,30 @@ namespace TwitchBot
         private BlockingCollection<string> outputQueue;
         private BlockingCollection<Command> commandQueue;
 
+        private Thread threadLayer1;
+        private Thread[] threadLayer2;
+        private Thread[] threadLayer3;
+        private Thread threadLayer4;
+
+        private volatile bool stopThreads;
+
         private readonly int messageHandlerCount;
         private readonly int commandHandlerCount;
 
-        public BasicTwitchBot(string userName, string password, int messageHandlerCount = 10, int commandHandlerCount = 10)
+        private List<TwitchBotModule> modules;
+
+        public BasicTwitchBot(string userName, string password, int messageHandlerCount = 1, int commandHandlerCount = 1)
         {
             this.userName = userName;
             this.password = password;
 
+            threadLayer2 = new Thread[messageHandlerCount];
+            threadLayer3 = new Thread[commandHandlerCount];
+
             this.messageHandlerCount = messageHandlerCount;
             this.commandHandlerCount = commandHandlerCount;
+
+            modules = new List<TwitchBotModule>();
 
         }
 
@@ -57,7 +70,7 @@ namespace TwitchBot
                 outputStream.WriteLine("USER " + userName + " 8 * :" + userName);
                 outputStream.Flush();
 
-                startReadWriting();
+                SetupAndStartThreads();
                 return true;
             }
 
@@ -68,12 +81,13 @@ namespace TwitchBot
 
         }
 
-        public void startReadWriting()
+        private void SetupAndStartThreads()
         {
+            stopThreads = false;
 
-            new Thread(() =>
+            threadLayer1 = new Thread(() =>
             {
-                while (true)
+                while (!stopThreads)
                 {
                     try
                     {
@@ -81,11 +95,11 @@ namespace TwitchBot
                     }
                     catch { }
                 }
-            }).Start();
+            });
 
-            new Thread(() =>
+            threadLayer4 = new Thread(() =>
             {
-                while (true)
+                while (!stopThreads)
                 {
                     try
                     {
@@ -94,38 +108,59 @@ namespace TwitchBot
                     }
                     catch { }
                 }
-            }).Start();
+            });
 
             for (int i = 0; i < messageHandlerCount; i++)
             {
-                new Thread(() =>
+                threadLayer2[i] = new Thread(() =>
                 {
-                    while(true)
+                    while(!stopThreads)
                     {
                         HandleMessageIntern(inputQueue.Take());
                     }
-                }).Start();
+                });
             }
 
             for (int i = 0; i < commandHandlerCount; i++)
             {
-                new Thread(() =>
+                threadLayer3[i] = new Thread(() =>
                 {
-                    while (true)
+                    while (!stopThreads)
                     {
-                        commandQueue.Take().Execute();
+                        var s = commandQueue.Take().Execute();
+
+                        if (s != null)
+                        {
+                            outputQueue.Add(s.convertForTwitch(userName,channelName));
+                        }
                     }
-                }).Start();
+                });
             }
+
+            threadLayer4.IsBackground = true;
+            threadLayer4.Start();
+
+            foreach (Thread t in threadLayer3)
+            {
+                t.IsBackground = true;
+                t.Start();
+            }
+
+            foreach (Thread t in threadLayer2)
+            {
+                t.IsBackground = true;
+                t.Start();
+            }
+
+            threadLayer1.IsBackground = true;
+            threadLayer1.Start();
         }
 
         private void HandleMessageIntern(string message)
         {
-            if (message.IsChatMessage())
+            foreach (TwitchBotModule mod in modules)
             {
-                ChatMessage cm = message.ParseMessageToChatMessage();
-
-                Command c = HandleMessage(cm);
+                Command c = mod.HandleMessage(message);
 
                 if (c != null)
                 {
@@ -134,18 +169,18 @@ namespace TwitchBot
             }
         }
 
-        public virtual Command HandleMessage(ChatMessage cm)
-        {
-            return new ResponseCommand(this, $"Hi {cm.Writer}, you wrote: {cm.Message}");
-        }
-
         public bool JoinChannel(string channelName)
         {
-            this.channelName = channelName;
+            if (this.channelName != "")
+            {
+                LeaveChannel();
+            }
+
+            this.channelName = channelName.ToLowerInvariant();
 
             if (this.channelName != "")
             {
-                outputQueue.Add("JOIN #" + channelName);
+                outputQueue.Add("JOIN #" + this.channelName);
                 return true;
             }
             else
@@ -164,6 +199,21 @@ namespace TwitchBot
         public void SendChatMessage(string message)
         {
             outputQueue.Add(message.convertForTwitch(userName, channelName));
+        }
+
+        public void AddModule(TwitchBotModule mod)
+        {
+            modules.Add(mod);
+        }
+
+        public void RemoveModule(TwitchBotModule mod)
+        {
+            modules.Remove(mod);
+        }
+
+        public List<TwitchBotModule> GetModules()
+        {
+            return modules;
         }
     }
 }
