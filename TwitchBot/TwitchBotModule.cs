@@ -8,11 +8,15 @@ namespace TwitchBot
 {
     public interface TwitchBotModule
     {
+        string GetName();
+
         void Open();
 
         bool Activate();
+        void Deactivate();
 
-        string GetName();
+        void HandleChannelJoin(string channelName);
+        void HandleChannelLeave(string channelName);
 
         Command HandleIncomingMessage(string msg);
         Command HandleOutgoingMessage(string msg);

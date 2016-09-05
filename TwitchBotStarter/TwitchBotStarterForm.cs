@@ -12,6 +12,9 @@ namespace TwitchBotStarter
     {
         private BasicTwitchBot tb;
 
+        //channel which will be connected to
+        private const string channelName = "beckicious";
+
         public TwitchBotStarterForm()
         {
             tb = new BasicTwitchBot("samplebot", "oauth:kj299d8n505eqn861pct0lrceoseph");
@@ -39,7 +42,7 @@ namespace TwitchBotStarter
 
         private void butJoin_Click(object sender, EventArgs e)
         {
-            tb.JoinChannel(txtChannel.Text);
+            tb.JoinChannel(channelName);
         }
 
         private void butLeave_Click(object sender, EventArgs e)

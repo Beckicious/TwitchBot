@@ -66,5 +66,15 @@ namespace CleanChatModule
                 active = true;
             }
         }
+
+        public void HandleChannelJoin(string channelName)
+        {
+            //nothing to do
+        }
+
+        public void HandleChannelLeave(string channelName)
+        {
+            //nothing to do
+        }
     }
 }

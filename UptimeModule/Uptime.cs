@@ -18,9 +18,24 @@ namespace UptimeModule
             return true;
         }
 
+        public void Deactivate()
+        {
+            //nothing to do
+        }
+
         public string GetName()
         {
             return name;
+        }
+
+        public void HandleChannelJoin(string channelName)
+        {
+            //nothing to do
+        }
+
+        public void HandleChannelLeave(string channelName)
+        {
+            //nothing to do
         }
 
         public Command HandleIncomingMessage(string msg)
@@ -45,7 +60,7 @@ namespace UptimeModule
 
         public void Open()
         {
-            //do nothing
+            //nothing to do
         }
     }
 }

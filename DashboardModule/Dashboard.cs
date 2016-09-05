@@ -37,6 +37,16 @@ namespace DashboardModule
             return null;
         }
 
+        public void HandleChannelJoin(string channelName)
+        {
+            //nothing to do
+        }
+
+        public void HandleChannelLeave(string channelName)
+        {
+            //nothing to do
+        }
+
         public void Open()
         {
             if (df == null)
