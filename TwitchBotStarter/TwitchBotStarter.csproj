@@ -84,6 +84,10 @@
       <Project>{e85dc2aa-5f0a-46c1-99b9-4e4b32711c1a}</Project>
       <Name>CleanChatModule</Name>
     </ProjectReference>
+    <ProjectReference Include="..\DashboardModule\DashboardModule.csproj">
+      <Project>{2d285438-3d10-4b70-80a8-abf2942df361}</Project>
+      <Name>DashboardModule</Name>
+    </ProjectReference>
     <ProjectReference Include="..\RawChatModule\RawChatModule.csproj">
       <Project>{a9ce0158-92f6-476d-b8d1-f068cb540bfd}</Project>
       <Name>RawChatModule</Name>

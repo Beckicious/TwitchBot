@@ -29,7 +29,21 @@ namespace CleanChatModule
             return name;
         }
 
-        public Command HandleMessage(string msg)
+        public Command HandleIncomingMessage(string msg)
+        {
+            if (active)
+            {
+                if (msg.IsChatMessage())
+                {
+                    ChatMessage cm = msg.ParseMessageToChatMessage();
+
+                    cc.AddLine(cm.Writer + ": " + cm.Message);
+                }
+            }
+            return null;
+        }
+
+        public Command HandleOutgoingMessage(string msg)
         {
             if (active)
             {

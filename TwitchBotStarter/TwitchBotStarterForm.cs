@@ -4,6 +4,7 @@ using TwitchBot;
 using RawChatModule;
 using CleanChatModule;
 using UptimeModule;
+using DashboardModule;
 
 namespace TwitchBotStarter
 {
@@ -19,6 +20,7 @@ namespace TwitchBotStarter
             tb.AddModule(new RawChat());
             tb.AddModule(new CleanChat());
             tb.AddModule(new Uptime());
+            tb.AddModule(new Dashboard());
 
 
             InitializeComponent();

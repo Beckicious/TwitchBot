@@ -14,6 +14,7 @@ namespace TwitchBot
 
         string GetName();
 
-        Command HandleMessage(string msg);
+        Command HandleIncomingMessage(string msg);
+        Command HandleOutgoingMessage(string msg);
     }
 }

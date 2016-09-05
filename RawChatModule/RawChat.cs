@@ -25,9 +25,18 @@ namespace RawChatModule
             rw = null;
         }
 
-        public Command HandleMessage(string msg)
+        public Command HandleIncomingMessage(string msg)
         {
             if(active)
+            {
+                rw.AddLine(msg);
+            }
+            return null;
+        }
+
+        public Command HandleOutgoingMessage(string msg)
+        {
+            if (active)
             {
                 rw.AddLine(msg);
             }

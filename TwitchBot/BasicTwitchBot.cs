@@ -116,7 +116,7 @@ namespace TwitchBot
                 {
                     while(!stopThreads)
                     {
-                        HandleMessageIntern(inputQueue.Take());
+                        HandleIncomingMessage(inputQueue.Take());
                     }
                 });
             }
@@ -127,11 +127,13 @@ namespace TwitchBot
                 {
                     while (!stopThreads)
                     {
-                        var s = commandQueue.Take().Execute();
+                        var msg = commandQueue.Take().Execute();
 
-                        if (s != null)
+                        if (msg != null)
                         {
-                            outputQueue.Add(s.convertForTwitch(userName,channelName));
+                            var twitchMsg = msg.convertForTwitch(userName, channelName);
+                            HandleOutgoingMessage(twitchMsg);
+                            outputQueue.Add(twitchMsg);
                         }
                     }
                 });
@@ -156,15 +158,38 @@ namespace TwitchBot
             threadLayer1.Start();
         }
 
-        private void HandleMessageIntern(string message)
+        private void HandleIncomingMessage(string message)
         {
-            foreach (TwitchBotModule mod in modules)
+            if (message != null)
             {
-                Command c = mod.HandleMessage(message);
-
-                if (c != null)
+                if (message.StartsWith("PING "))
                 {
-                    commandQueue.Add(c);
+                    SendIRCMessage("PONG " + message.Substring(5) + "\r\n");
+                }
+                foreach (TwitchBotModule mod in modules)
+                {
+                    Command c = mod.HandleIncomingMessage(message);
+
+                    if (c != null)
+                    {
+                        commandQueue.Add(c);
+                    }
+                }
+            }
+        }
+
+        private void HandleOutgoingMessage(string message)
+        {
+            if (message != null)
+            {
+                foreach (TwitchBotModule mod in modules)
+                {
+                    Command c = mod.HandleOutgoingMessage(message);
+
+                    if (c != null)
+                    {
+                        commandQueue.Add(c);
+                    }
                 }
             }
         }
@@ -199,6 +224,11 @@ namespace TwitchBot
         public void SendChatMessage(string message)
         {
             outputQueue.Add(message.convertForTwitch(userName, channelName));
+        }
+
+        public void SendIRCMessage(string message)
+        {
+            outputQueue.Add(message);
         }
 
         public void AddModule(TwitchBotModule mod)

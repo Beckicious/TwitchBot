@@ -4,18 +4,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TwitchBot;
-using System.Net;
 
-namespace UptimeModule
+namespace DashboardModule
 {
-    public class Uptime : TwitchBotModule
+    public class Dashboard : TwitchBotModule
     {
-        private readonly string name = "Uptime";
-
+        private DashboardForm df;
+        private readonly string name = "Dashboard";
 
         public bool Activate()
         {
             return true;
+        }
+
+        public void Deactivate()
+        {
+            df = null;
         }
 
         public string GetName()
@@ -25,16 +29,6 @@ namespace UptimeModule
 
         public Command HandleIncomingMessage(string msg)
         {
-            if (msg.IsChatMessage())
-            {
-                ChatMessage cm = msg.ParseMessageToChatMessage();
-
-                if (cm.FirstWord.ToLowerInvariant() == "!uptime")
-                {
-                    return new UptimeCommand(cm.Channel, cm.Writer);
-                }
-            }
-
             return null;
         }
 
@@ -45,7 +39,11 @@ namespace UptimeModule
 
         public void Open()
         {
-            //do nothing
+            if (df == null)
+            {
+                df = new DashboardForm(this);
+                df.Show();
+            }
         }
     }
 }
