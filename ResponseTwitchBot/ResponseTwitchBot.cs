@@ -4,7 +4,6 @@ using System.Threading;
 using System.IO;
 using System.Collections.Concurrent;
 using TwitchBot;
-using TwitchBot.Commands;
 
 
 namespace ResponseTwitchBot
@@ -95,34 +94,16 @@ namespace ResponseTwitchBot
             }).Start();
         }
 
-        public override Command HandleMessage(ChatMessage cm)
-        {
-            try
-            {
-                if (commandDict.ContainsKey(cm.FirstWord))
-                {
-                    return commandDict[cm.FirstWord];
-                }
-                else
-                {
-                    return commandDict[cm.Writer];
-                }
-            } catch
-            {
-                return null;
-            }
-        }
-
         public void AddResponseCommand(string trigger, string response)
         {
-            commandDict.AddOrUpdate(trigger, new ResponseCommand(this, response), (string s, Command c) => { return new ResponseCommand(this, response); });
-            Properties.Settings.Default.commandDict = ConvertDictToString();
-            Properties.Settings.Default.Save();
+            //commandDict.AddOrUpdate(trigger, new ResponseCommand(this, response), (string s, Command c) => { return new ResponseCommand(this, response); });
+            //Properties.Settings.Default.commandDict = ConvertDictToString();
+            //Properties.Settings.Default.Save();
         }
 
         public void AddAnswerCommand(string trigger)
         {
-            commandDict.AddOrUpdate(trigger, new AnswerCommand(this), (string s, Command c) => { return new AnswerCommand(this); });
+            //commandDict.AddOrUpdate(trigger, new AnswerCommand(this), (string s, Command c) => { return new AnswerCommand(this); });
         }
 
         public void RemoveResponseCommand(string trigger)
@@ -163,7 +144,7 @@ namespace ResponseTwitchBot
 
             for (int i = 0; i < dictStrings.Length / 2; i++)
             {
-                commandDict.TryAdd(dictStrings[2 * i], new ResponseCommand(this, dictStrings[(2 * i) + 1]));
+                //commandDict.TryAdd(dictStrings[2 * i], new ResponseCommand(this, dictStrings[(2 * i) + 1]));
             }
         }
     }
