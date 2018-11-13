@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="twitchbot" Class="TwitchBotDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\data\twitchbot.mdf;Integrated Security=True;Connect Timeout=30" SettingsObjectName="TwitchBot.Properties.Settings" SettingsPropertyName="twitchbotConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.Users" Member="Users">
+    <Type Name="User">
+      <Column Name="UserID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Association Name="User_Channel" Member="Channels" ThisKey="UserID" OtherKey="UserID" Type="Channel" />
+      <Association Name="User_Message" Member="Messages" ThisKey="UserID" OtherKey="UserID" Type="Message" />
+      <Association Name="User_Point" Member="Points" ThisKey="UserID" OtherKey="UserID" Type="Point" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Channels" Member="Channels">
+    <Type Name="Channel">
+      <Column Name="ChannelID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="UserID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Channel_Message" Member="Messages" ThisKey="ChannelID" OtherKey="ChannelID" Type="Message" />
+      <Association Name="Channel_Point" Member="Points" ThisKey="ChannelID" OtherKey="ChannelID" Type="Point" />
+      <Association Name="Channel_ResponseCommand" Member="ResponseCommands" ThisKey="ChannelID" OtherKey="ChannelID" Type="ResponseCommand" />
+      <Association Name="User_Channel" Member="User" ThisKey="UserID" OtherKey="UserID" Type="User" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Messages" Member="Messages">
+    <Type Name="Message">
+      <Column Name="MessageID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="UserID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ChannelID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Date" Type="System.DateTime" DbType="DateTime2 NOT NULL" CanBeNull="false" />
+      <Column Name="Text" Type="System.String" DbType="NVarChar(500) NOT NULL" CanBeNull="false" />
+      <Association Name="Channel_Message" Member="Channel" ThisKey="ChannelID" OtherKey="ChannelID" Type="Channel" IsForeignKey="true" />
+      <Association Name="User_Message" Member="User" ThisKey="UserID" OtherKey="UserID" Type="User" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Points" Member="Points">
+    <Type Name="Point">
+      <Column Name="PointID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="UserID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ChannelID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Amount" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Channel_Point" Member="Channel" ThisKey="ChannelID" OtherKey="ChannelID" Type="Channel" IsForeignKey="true" />
+      <Association Name="User_Point" Member="User" ThisKey="UserID" OtherKey="UserID" Type="User" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ResponseCommands" Member="ResponseCommands">
+    <Type Name="ResponseCommand">
+      <Column Name="ResponseCommandID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ChannelID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="[Trigger]" Member="Trigger" Type="System.String" DbType="NVarChar(500) NOT NULL" CanBeNull="false" />
+      <Column Name="ResponseText" Type="System.String" DbType="NVarChar(500) NOT NULL" CanBeNull="false" />
+      <Association Name="Channel_ResponseCommand" Member="Channel" ThisKey="ChannelID" OtherKey="ChannelID" Type="Channel" IsForeignKey="true" />
+    </Type>
+  </Table>
+</Database>
