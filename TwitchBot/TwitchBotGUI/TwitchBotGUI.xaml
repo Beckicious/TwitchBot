@@ -5,15 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TwitchBot"
         mc:Ignorable="d"
-        Title="TwitchBot" Height="800" Width="458" Foreground="#FFD5D5D5" Background="#FF252526">
+        Title="TwitchBot" Height="800" Width="458" Foreground="#FFD5D5D5" Background="#FF252526" MinWidth="300">
     <Grid Background="#FF252526">
         <UniformGrid Height="30" VerticalAlignment="Top" HorizontalAlignment="Stretch" Columns="3">
             <TextBox x:Name="txtChannel" AutomationProperties.HelpText="channel" FontSize="12" Padding="9 0 9 0" Text="channel&#xD;&#xA;" MaxLines="1" BorderThickness="0" Background="#FF686868" Foreground="#FFD5D5D5"/>
             <Button x:Name="butConnect" Content="Connect" Margin="0" Click="butConnect_Click" Grid.Column="1" BorderThickness="0"/>
             <Button x:Name="butDisconnect" Content="Disconnect" Margin="0" IsEnabled="False" Click="butDisconnect_Click" Grid.Column="2" BorderThickness="0"/>
         </UniformGrid>
-        <ScrollViewer x:Name="svChatLines" Margin="0,30">
-            <StackPanel x:Name="spChatLines" Margin="0"></StackPanel>
+        <ScrollViewer x:Name="svChatLines" Margin="0,30" BorderThickness="20" ClipToBounds="True" Foreground="{x:Null}" VerticalScrollBarVisibility="Auto">
+            <StackPanel x:Name="spChatLines" Margin="0" ClipToBounds="True"></StackPanel>
         </ScrollViewer>
         <UniformGrid Height="30" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Columns="1">
             <Label x:Name="txtStatus" FontSize="12" Padding="9 0 0 0"  VerticalContentAlignment="Center" BorderThickness="0" Background="#FF007ACC" Foreground="#FFD5D5D5" Content="" IsEnabled="False"/>

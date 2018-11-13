@@ -25,6 +25,8 @@ namespace TwitchBot
     {
 
         TwitchBotBase tb;
+        private const int maxNumberOfChatMessages = 10000;
+        private const int numberOfChatMessagesToRemove = 1000;
 
         public TwitchBotGUI()
         {
@@ -43,8 +45,19 @@ namespace TwitchBot
         {
             this.Dispatcher.Invoke(() =>
             {
-                spChatLines.Children.Add(new ChatLine(e));
-                svChatLines.ScrollToBottom();
+                if (spChatLines.Children.Count > maxNumberOfChatMessages - 1)
+                {
+                    spChatLines.Children.RemoveRange(0, numberOfChatMessagesToRemove);
+                }
+
+                if (svChatLines.VerticalOffset == svChatLines.ScrollableHeight)
+                {
+                    spChatLines.Children.Add(new ChatLine(e));
+                    svChatLines.ScrollToBottom();
+                } else
+                {
+                    spChatLines.Children.Add(new ChatLine(e));
+                }
             });
         }
 
@@ -80,6 +93,7 @@ namespace TwitchBot
         {
             this.Dispatcher.Invoke(() =>
             {
+                spChatLines.Children.Clear();
                 butConnect.IsEnabled = true;
                 txtChannel.IsEnabled = true;
                 butDisconnect.IsEnabled = false;
