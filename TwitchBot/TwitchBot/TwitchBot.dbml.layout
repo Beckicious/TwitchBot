@@ -1,77 +1,77 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="TwitchBot">
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.875" name="TwitchBot">
   <DataContextMoniker Name="/TwitchBotDataContext" />
   <nestedChildShapes>
-    <classShape Id="31df3996-26e2-46c6-a727-d5383b222b8d" absoluteBounds="0.75, 4, 2, 1.1939925130208327">
-      <DataClassMoniker Name="/TwitchBotDataContext/User" />
-      <nestedChildShapes>
-        <elementListCompartment Id="31cdb781-f43a-44e4-a348-887aaed54ba5" absoluteBounds="0.765, 4.46, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
-      </nestedChildShapes>
-    </classShape>
-    <classShape Id="bf445875-5d3e-4fd9-b99e-24a408bead86" absoluteBounds="3.5, 4, 2, 1.1939925130208327">
+    <classShape Id="ccf198bb-48ed-4dba-ac2e-51aa8bfa57db" absoluteBounds="4.125, 5, 2, 1.1939925130208327">
       <DataClassMoniker Name="/TwitchBotDataContext/Channel" />
       <nestedChildShapes>
-        <elementListCompartment Id="dd9c894b-c7d6-47ff-8e52-c3873a8a83ec" absoluteBounds="3.515, 4.46, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="56f13dd1-6ef3-44bf-b014-78e7a514eb4a" absoluteBounds="4.1400000000000006, 5.46, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="86174146-c6fa-4057-aa01-70b424e15663" absoluteBounds="2.25, 1.25, 2, 1.7708968098958327">
+    <classShape Id="5565bc14-3fbd-4170-98a9-ad7708048c36" absoluteBounds="1.375, 5, 2, 1.1939925130208327">
+      <DataClassMoniker Name="/TwitchBotDataContext/User" />
+      <nestedChildShapes>
+        <elementListCompartment Id="4a84dd19-0df5-4b1e-974f-82ed6391ad95" absoluteBounds="1.3900000000000001, 5.46, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="0ff169db-1e9b-4a0b-a3fa-e22f737daf5c" absoluteBounds="2.75, 2.25, 2, 1.7708968098958327">
       <DataClassMoniker Name="/TwitchBotDataContext/Message" />
       <nestedChildShapes>
-        <elementListCompartment Id="e8c382e4-aafe-4ca3-8a17-9efd21027b11" absoluteBounds="2.2649999999999997, 1.71, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="a98b1a1e-6905-4233-8750-767e2c50f2c5" absoluteBounds="2.7649999999999997, 2.71, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="77ddcd43-d44c-4f96-b609-e504657dc4fd" absoluteBounds="2.25, 6, 2, 1.5785953776041666">
+    <classShape Id="5f45df28-c88d-4663-98b8-00ae69121e95" absoluteBounds="2.875, 7, 2, 1.5785953776041666">
       <DataClassMoniker Name="/TwitchBotDataContext/Point" />
       <nestedChildShapes>
-        <elementListCompartment Id="c16242c3-0a10-4a3c-9ead-1ae7153518cc" absoluteBounds="2.2649999999999997, 6.46, 1.9700000000000002, 1.0185953776041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="8cd7ef8c-fd81-4ecd-b9d2-6a9d7f0ec3ff" absoluteBounds="2.8899999999999997, 7.46, 1.9700000000000002, 1.0185953776041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="c2136469-af98-4b02-9cea-a2955243f375" absoluteBounds="6.25, 3.875, 2, 1.5785953776041666">
+    <classShape Id="12a907de-9f22-4959-9f77-04f1ebef1c5a" absoluteBounds="7.5, 4.75, 2, 1.5785953776041666">
       <DataClassMoniker Name="/TwitchBotDataContext/ResponseCommand" />
       <nestedChildShapes>
-        <elementListCompartment Id="500597fe-40bb-4281-83b4-20444ed22ea0" absoluteBounds="6.265, 4.335, 1.9700000000000002, 1.0185953776041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="6d3daa0b-9365-4716-810a-ee53be591cb3" absoluteBounds="7.515, 5.21, 1.9700000000000002, 1.0185953776041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <associationConnector edgePoints="[(2.75 : 4.59699625651042); (3.5 : 4.59699625651042)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(3.375 : 5.59699625651042); (4.125 : 5.59699625651042)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/TwitchBotDataContext/User/User_Channel" />
       <nodes>
-        <classShapeMoniker Id="31df3996-26e2-46c6-a727-d5383b222b8d" />
-        <classShapeMoniker Id="bf445875-5d3e-4fd9-b99e-24a408bead86" />
+        <classShapeMoniker Id="5565bc14-3fbd-4170-98a9-ad7708048c36" />
+        <classShapeMoniker Id="ccf198bb-48ed-4dba-ac2e-51aa8bfa57db" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(3.875 : 4); (3.875 : 3.02089680989583)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(4.4375 : 5); (4.4375 : 4.02089680989583)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/TwitchBotDataContext/Channel/Channel_Message" />
       <nodes>
-        <classShapeMoniker Id="bf445875-5d3e-4fd9-b99e-24a408bead86" />
-        <classShapeMoniker Id="86174146-c6fa-4057-aa01-70b424e15663" />
+        <classShapeMoniker Id="ccf198bb-48ed-4dba-ac2e-51aa8bfa57db" />
+        <classShapeMoniker Id="0ff169db-1e9b-4a0b-a3fa-e22f737daf5c" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(2.5 : 4); (2.5 : 3.02089680989583)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(3.0625 : 5); (3.0625 : 4.02089680989583)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/TwitchBotDataContext/User/User_Message" />
       <nodes>
-        <classShapeMoniker Id="31df3996-26e2-46c6-a727-d5383b222b8d" />
-        <classShapeMoniker Id="86174146-c6fa-4057-aa01-70b424e15663" />
+        <classShapeMoniker Id="5565bc14-3fbd-4170-98a9-ad7708048c36" />
+        <classShapeMoniker Id="0ff169db-1e9b-4a0b-a3fa-e22f737daf5c" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(3.875 : 5.19399251302083); (3.875 : 6)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(4.5 : 6.19399251302083); (4.5 : 7)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/TwitchBotDataContext/Channel/Channel_Point" />
       <nodes>
-        <classShapeMoniker Id="bf445875-5d3e-4fd9-b99e-24a408bead86" />
-        <classShapeMoniker Id="77ddcd43-d44c-4f96-b609-e504657dc4fd" />
+        <classShapeMoniker Id="ccf198bb-48ed-4dba-ac2e-51aa8bfa57db" />
+        <classShapeMoniker Id="5f45df28-c88d-4663-98b8-00ae69121e95" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(2.5 : 5.19399251302083); (2.5 : 6)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(3.125 : 6.19399251302083); (3.125 : 7)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/TwitchBotDataContext/User/User_Point" />
       <nodes>
-        <classShapeMoniker Id="31df3996-26e2-46c6-a727-d5383b222b8d" />
-        <classShapeMoniker Id="77ddcd43-d44c-4f96-b609-e504657dc4fd" />
+        <classShapeMoniker Id="5565bc14-3fbd-4170-98a9-ad7708048c36" />
+        <classShapeMoniker Id="5f45df28-c88d-4663-98b8-00ae69121e95" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(5.5 : 4.59699625651042); (6.25 : 4.59699625651042)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(6.125 : 5.59699625651042); (7.5 : 5.59699625651042)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/TwitchBotDataContext/Channel/Channel_ResponseCommand" />
       <nodes>
-        <classShapeMoniker Id="bf445875-5d3e-4fd9-b99e-24a408bead86" />
-        <classShapeMoniker Id="c2136469-af98-4b02-9cea-a2955243f375" />
+        <classShapeMoniker Id="ccf198bb-48ed-4dba-ac2e-51aa8bfa57db" />
+        <classShapeMoniker Id="12a907de-9f22-4959-9f77-04f1ebef1c5a" />
       </nodes>
     </associationConnector>
   </nestedChildShapes>

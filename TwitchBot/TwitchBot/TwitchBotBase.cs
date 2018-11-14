@@ -19,7 +19,9 @@ namespace TwitchBot
         private TwitchClient client;
         private string Botname { get; set; }
         private string Token { get; set; }
-        private string JoinedChannel { get; set; } = null;
+        private Channel JoinedChannel { get; set; } = null;
+
+        private TwitchBotDataContext db;
 
         public event EventHandler<string> OnStatusChange;
         public event EventHandler<ChatMessage> OnChatMessageReceived;
@@ -27,6 +29,8 @@ namespace TwitchBot
         public TwitchBotBase()
         {
             UpdateStatus("Initializing");
+
+            db = new TwitchBotDataContext();
 
             //read credentials file
             XmlDocument doc = new XmlDocument();
@@ -53,7 +57,6 @@ namespace TwitchBot
             //Chat
             client.OnMessageReceived += OnMessageReceived;
             client.OnWhisperReceived += OnWhisperReceived;
-
 
             //Users
             client.OnUserJoined += OnUserJoined;
@@ -94,7 +97,7 @@ namespace TwitchBot
         {
             UpdateStatus("Leaving channel");
 
-            client.LeaveChannel(this.JoinedChannel);
+            client.LeaveChannel(this.JoinedChannel.User.Name);
         }
 
         #region Events
@@ -116,9 +119,11 @@ namespace TwitchBot
 
         private void OnJoinedChannel(object sender, OnJoinedChannelArgs e)
         {
-            this.JoinedChannel = e.Channel;
-            UpdateStatus($"Joined Channel {this.JoinedChannel}");
-            client.SendMessage(this.JoinedChannel, DateTime.Now.ToString()); //TODO: remove
+            this.JoinedChannel = GetOrAddChannel(e.Channel.ToLowerInvariant());
+
+            UpdateStatus($"Joined Channel {this.JoinedChannel.User.Name}");
+
+            client.SendMessage(this.JoinedChannel.User.Name, DateTime.Now.ToString()); //TODO: remove
         }
 
         private void OnFailureToReceiveJoinConfirmation(object sender, OnFailureToReceiveJoinConfirmationArgs e)
@@ -137,6 +142,9 @@ namespace TwitchBot
         {
             Console.WriteLine($"Received message: {e.ChatMessage.Message}");
             OnChatMessageReceived?.Invoke(this, e.ChatMessage);
+
+            var user = GetOrAddUser(e.ChatMessage.Username);
+            AddMessage(user.UserID, this.JoinedChannel.ChannelID, e.ChatMessage.Message);
         }
 
         private void OnWhisperReceived(object sender, OnWhisperReceivedArgs e)
@@ -170,5 +178,72 @@ namespace TwitchBot
         }
 
         #endregion Events
+
+        private User GetOrAddUser(string name)
+        {
+            var user = GetUserByName(name);
+            if (user == null)
+            {
+                user = AddUser(name);
+            }
+            return user;
+        }
+
+        private User AddUser(string name)
+        {
+            var u = new User()
+            {
+                Name = name
+            };
+            db.Users.InsertOnSubmit(u);
+            db.SubmitChanges();
+            return u;
+        }
+
+        private User GetUserByName(string name)
+        {
+            return db.Users.SingleOrDefault(u => u.Name == name.ToLowerInvariant());
+        }
+
+        private Channel GetOrAddChannel(string name)
+        {
+            var user = GetOrAddUser(name);
+            var ch = GetChannelToUser(user.UserID);
+            if (ch == null)
+            {
+                ch = AddChannel(user.UserID);
+            }
+            return ch;
+        }
+
+        private Channel AddChannel(int userID)
+        {
+            var ch = new Channel()
+            {
+                UserID = userID
+            };
+            db.Channels.InsertOnSubmit(ch);
+            db.SubmitChanges();
+            return ch;
+        }
+
+        private Channel GetChannelToUser(int userID)
+        {
+            return db.Channels.SingleOrDefault(ch => ch.UserID == userID);
+        }
+
+        private Message AddMessage(int userID, int channelID, string text)
+        {
+            var msg = new Message()
+            {
+                UserID = userID,
+                ChannelID = channelID,
+                Date = DateTime.Now,
+                Text = text
+            };
+            db.Messages.InsertOnSubmit(msg);
+            db.SubmitChanges();
+            return msg;
+        }
     }
 }

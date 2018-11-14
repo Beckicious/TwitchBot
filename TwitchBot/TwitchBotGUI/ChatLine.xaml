@@ -11,7 +11,7 @@
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
-        <TextBox x:Name="txtUser" Margin="0" TextWrapping="Wrap" Text="TextBox" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#FFD5D5D5" SelectionBrush="{x:Null}" BorderThickness="0" IsReadOnly="True" IsUndoEnabled="False" AllowDrop="False"/>
+        <TextBox x:Name="txtUser" Margin="0" TextWrapping="Wrap" Text="TextBox" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#FFD5D5D5" SelectionBrush="{x:Null}" BorderThickness="0" IsReadOnly="True" IsUndoEnabled="False" AllowDrop="False" FontWeight="Bold"/>
         <TextBox x:Name="txtMessage" Grid.Column="1" Margin="0" TextWrapping="Wrap" Text="TextBox" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#FFD5D5D5" SelectionBrush="{x:Null}" BorderThickness="0" ClipToBounds="True" HorizontalAlignment="Right" IsReadOnly="True" AllowDrop="False"/>
     </Grid>
 </UserControl>

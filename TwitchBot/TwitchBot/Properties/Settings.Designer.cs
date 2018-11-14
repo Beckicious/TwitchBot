@@ -26,11 +26,33 @@ namespace TwitchBot.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\\data\\twitchbo" +
-            "t.mdf;Integrated Security=True;Connect Timeout=30")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\\TwitchBot.mdf" +
+            ";Integrated Security=True;Connect Timeout=30")]
+        public string TwitchBotConnectionString1 {
+            get {
+                return ((string)(this["TwitchBotConnectionString1"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=D:\\NOT_WORK\\TwitchBot\\TwitchB" +
+            "ot\\TwitchBotGUI\\bin\\Debug\\data;Integrated Security=True;Connect Timeout=30")]
         public string twitchbotConnectionString {
             get {
                 return ((string)(this["twitchbotConnectionString"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=(LocalDb)\\MSSQLLocalDB;Initial Catalog=TwitchBot;Integrated Security=" +
+            "True")]
+        public string TwitchBotConnectionString2 {
+            get {
+                return ((string)(this["TwitchBotConnectionString2"]));
             }
         }
     }
