@@ -11,6 +11,8 @@ using TwitchLib.Client.Extensions;
 using TwitchLib.Client.Models;
 using TwitchLib.Communication.Events;
 using System.Drawing;
+using System.Timers;
+using TwitchLib.Api;
 
 namespace TwitchBot
 {
@@ -22,6 +24,8 @@ namespace TwitchBot
         private Channel JoinedChannel { get; set; } = null;
 
         private TwitchBotDataContext db;
+
+        private Timer pointTimer;
 
         public event EventHandler<string> OnStatusChange;
         public event EventHandler<ChatMessage> OnChatMessageReceived;
@@ -40,7 +44,7 @@ namespace TwitchBot
             this.JoinedChannel = null;
 
             ConnectionCredentials credentials = new ConnectionCredentials(this.Botname, this.Token);
-
+            
             client = new TwitchClient();
             client.Initialize(credentials);
 
@@ -123,7 +127,8 @@ namespace TwitchBot
 
             UpdateStatus($"Joined Channel {this.JoinedChannel.User.Name}");
 
-            client.SendMessage(this.JoinedChannel.User.Name, DateTime.Now.ToString()); //TODO: remove
+            SetPointTimer();
+            // client.SendMessage(this.JoinedChannel.User.Name, DateTime.Now.ToString()); //TODO: remove
         }
 
         private void OnFailureToReceiveJoinConfirmation(object sender, OnFailureToReceiveJoinConfirmationArgs e)
@@ -136,11 +141,12 @@ namespace TwitchBot
         {
             this.JoinedChannel = null;
             UpdateStatus($"Left channel {e.Channel}");
+
+            StopTimer();
         }
 
         private void OnMessageReceived(object sender, OnMessageReceivedArgs e)
         {
-            Console.WriteLine($"Received message: {e.ChatMessage.Message}");
             OnChatMessageReceived?.Invoke(this, e.ChatMessage);
 
             var user = GetOrAddUser(e.ChatMessage.Username);
@@ -149,12 +155,13 @@ namespace TwitchBot
 
         private void OnWhisperReceived(object sender, OnWhisperReceivedArgs e)
         {
-            Console.WriteLine($"Received whisper: {e.WhisperMessage.Message}");
+            Console.WriteLine($"Received whisper from {e.WhisperMessage.Username}: {e.WhisperMessage.Message}");
         }
 
         private void OnUserJoined(object sender, OnUserJoinedArgs e)
         {
             Console.WriteLine($"User joined channel: {e.Username}");
+            GetOrAddUser(e.Username);
         }
 
         private void OnUserLeft(object sender, OnUserLeftArgs e)
@@ -178,6 +185,32 @@ namespace TwitchBot
         }
 
         #endregion Events
+
+        private void SetPointTimer()
+        {
+            pointTimer = new Timer(1000);
+            pointTimer.Elapsed += AddPointsToViewers;
+            pointTimer.AutoReset = true;
+            pointTimer.Enabled = true;
+        }
+
+        public void AddPointsToViewers(object sender, ElapsedEventArgs e)
+        {
+            Chatters chatters = Chatters.GetChatters(this.JoinedChannel.User.Name);
+
+            foreach (string username in chatters.AllViewers)
+            {
+                var point = GetOrAddPoint(username, this.JoinedChannel.User.Name);
+                point.Amount += 1;
+            }
+            db.SubmitChanges();
+        }
+
+        private void StopTimer()
+        {
+            pointTimer.Enabled = false;
+        }
+
 
         private User GetOrAddUser(string name)
         {
@@ -244,6 +277,36 @@ namespace TwitchBot
             db.Messages.InsertOnSubmit(msg);
             db.SubmitChanges();
             return msg;
+        }
+
+        private Point GetOrAddPoint(string username, string channelname)
+        {
+            var point = GetPoint(username, channelname);
+            if (point == null)
+            {
+                var user = GetOrAddUser(username);
+                var channel = GetOrAddChannel(channelname);
+                point = AddPoint(user.UserID, channel.ChannelID);
+            }
+            return point;
+        }
+
+        private Point GetPoint(string username, string channelname)
+        {
+            return db.Points.SingleOrDefault(p => p.User.Name == username.ToLowerInvariant() && p.Channel.User.Name == channelname.ToLowerInvariant());
+        }
+
+        private Point AddPoint(int userID, int channelID)
+        {
+            var point = new Point()
+            {
+                UserID = userID,
+                ChannelID = channelID,
+                Amount = 0
+            };
+            db.Points.InsertOnSubmit(point);
+            db.SubmitChanges();
+            return point;
         }
     }
 }
